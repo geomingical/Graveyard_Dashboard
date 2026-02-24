@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+backend/venv/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.vscode/
+.idea/
+
+# Ruff cache
+.ruff_cache/
+
+# OpenCode / Sisyphus internals
+.sisyphus/
+
+# One-off scripts
+remove_bg.py
+test.js
+
+# Backup sprites
+images/tower_original.png
+
+# Development notes
+comment.md
+Graveyard_Dashboard.md

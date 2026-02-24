@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Graveyard Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- HUD: summary stats (populated by app.js) -->
+  <div id="hud">
+    <div class="hud-title">⬡ CYBER GRAVEYARD</div>
+    <div id="hud-generated">loading...</div>
+    <div id="hud-stats"></div>
+  </div>
+
+  <!-- Isometric canvas: all sprites positioned here -->
+  <div id="graveyard-grid">
+    <!--
+      STATIC PLACEHOLDER SPRITES
+      app.js will clear and re-render these dynamically.
+      These are for visual QA only — confirm layout before app.js is ready.
+
+      Isometric formula used:
+        tileHalfWidth  = 64
+        tileHalfHeight = 32
+        baseX = 800, baseY = 380  (viewport approximate center)
+        screenX = (gridX - gridY) * 64 + baseX
+        screenY = (gridX + gridY) * 32 + baseY
+        z-index = screenY
+
+      Sprite anchor: bottom-center at (screenX, screenY)
+      CSS: transform: translateX(-50%) handles horizontal centering
+      CSS: `top` is set to screenY minus sprite height so bottom aligns
+    -->
+
+    <!-- TOWER — grid(5,5) → screen(800, 700) -->
+    <div class="sprite tower"
+         data-type="tower"
+         style="left: 800px; top: 572px; z-index: 700;">
+      <img src="../images/tower.png" alt="Central Tower" width="128" height="128">
+    </div>
+
+    <!-- AGENTS — inner ring -->
+
+    <!-- Agent 1 — grid(4,4) → screen(800, 636) — ALIVE -->
+    <div class="sprite agent status-alive"
+         data-id="agent:preview-1" data-name="preview-agent-1"
+         data-type="agent" data-model="claude-3-5-sonnet"
+         data-status="ALIVE" data-severity="OK"
+         data-latency="312" data-error-type="" data-error-message=""
+         style="left: 800px; top: 540px; z-index: 636;">
+      <img src="../images/agent.png" alt="agent" width="64" height="96">
+    </div>
+
+    <!-- Agent 2 — grid(4,6) → screen(672, 700) — RATE_LIMIT -->
+    <div class="sprite agent status-rate-limit"
+         data-id="agent:preview-2" data-name="preview-agent-2"
+         data-type="agent" data-model="gpt-5.2-codex"
+         data-status="RATE_LIMIT" data-severity="WARN"
+         data-latency="2100" data-error-type="RATE_LIMIT" data-error-message="Simulated rate_limit"
+         style="left: 672px; top: 604px; z-index: 700;">
+      <img src="../images/agent.png" alt="agent" width="64" height="96">
+    </div>
+
+    <!-- Agent 3 — grid(6,4) → screen(928, 700) — PROVIDER_ERROR -->
+    <div class="sprite agent status-provider-error"
+         data-id="category:preview-3" data-name="preview-category-3"
+         data-type="category" data-model="gemini-3-flash"
+         data-status="PROVIDER_ERROR" data-severity="ERROR"
+         data-latency="8900" data-error-type="PROVIDER_ERROR" data-error-message="Simulated provider_error"
+         style="left: 928px; top: 604px; z-index: 700;">
+      <img src="../images/agent.png" alt="agent" width="64" height="96">
+    </div>
+
+    <!-- Agent 4 — grid(6,6) → screen(800, 764) — TIMEOUT -->
+    <div class="sprite agent status-timeout"
+         data-id="category:preview-4" data-name="preview-category-4"
+         data-type="category" data-model="claude-haiku-4-5"
+         data-status="TIMEOUT" data-severity="ERROR"
+         data-latency="10000" data-error-type="TIMEOUT" data-error-message="Simulated timeout"
+         style="left: 800px; top: 668px; z-index: 764;">
+      <img src="../images/agent.png" alt="agent" width="64" height="96">
+    </div>
+
+    <!-- Agent 5 — grid(5,3) → screen(928, 636) — BAD_REQUEST -->
+    <div class="sprite agent status-bad-request"
+         data-id="agent:preview-5" data-name="preview-agent-5"
+         data-type="agent" data-model="claude-sonnet-4-5"
+         data-status="BAD_REQUEST" data-severity="ERROR"
+         data-latency="450" data-error-type="BAD_REQUEST" data-error-message="Simulated bad_request"
+         style="left: 928px; top: 540px; z-index: 636;">
+      <img src="../images/agent.png" alt="agent" width="64" height="96">
+    </div>
+
+    <!-- TOMBSTONES — outer ring -->
+
+    <!-- Tombstone 1 — grid(3,3) → screen(800, 572) — UNAUTHORIZED -->
+    <div class="sprite tombstone status-unauthorized"
+         data-id="agent:preview-dead-1" data-name="preview-dead-1"
+         data-type="agent" data-model="unknown-model"
+         data-status="UNAUTHORIZED" data-severity="CRITICAL"
+         data-latency="55" data-error-type="UNAUTHORIZED" data-error-message="Simulated unauthorized"
+         style="left: 800px; top: 476px; z-index: 572;">
+      <img src="../images/tombstone.png" alt="tombstone" width="64" height="96">
+    </div>
+
+    <!-- Tombstone 2 — grid(3,7) → screen(544, 700) — MODEL_NOT_FOUND -->
+    <div class="sprite tombstone status-model-not-found"
+         data-id="agent:preview-dead-2" data-name="preview-dead-2"
+         data-type="agent" data-model="deprecated-model-v1"
+         data-status="MODEL_NOT_FOUND" data-severity="CRITICAL"
+         data-latency="88" data-error-type="MODEL_NOT_FOUND" data-error-message="Simulated model_not_found"
+         style="left: 544px; top: 604px; z-index: 700;">
+      <img src="../images/tombstone.png" alt="tombstone" width="64" height="96">
+    </div>
+
+    <!-- Tombstone 3 — grid(7,3) → screen(1056, 700) — UNAUTHORIZED -->
+    <div class="sprite tombstone status-unauthorized"
+         data-id="category:preview-dead-3" data-name="preview-dead-3"
+         data-type="category" data-model="unknown-provider"
+         data-status="UNAUTHORIZED" data-severity="CRITICAL"
+         data-latency="120" data-error-type="UNAUTHORIZED" data-error-message="Simulated unauthorized"
+         style="left: 1056px; top: 604px; z-index: 700;">
+      <img src="../images/tombstone.png" alt="tombstone" width="64" height="96">
+    </div>
+
+    <!-- Tombstone 4 — grid(7,7) → screen(800, 828) — MODEL_NOT_FOUND -->
+    <div class="sprite tombstone status-model-not-found"
+         data-id="category:preview-dead-4" data-name="preview-dead-4"
+         data-type="category" data-model="sunsetted-model"
+         data-status="MODEL_NOT_FOUND" data-severity="CRITICAL"
+         data-latency="200" data-error-type="MODEL_NOT_FOUND" data-error-message="Simulated model_not_found"
+         style="left: 800px; top: 732px; z-index: 828;">
+      <img src="../images/tombstone.png" alt="tombstone" width="64" height="96">
+    </div>
+
+    <!-- Tombstone 5 — grid(5,1) → screen(1056, 572) — UNAUTHORIZED -->
+    <div class="sprite tombstone status-unauthorized"
+         data-id="agent:preview-dead-5" data-name="preview-dead-5"
+         data-type="agent" data-model="key-revoked-model"
+         data-status="UNAUTHORIZED" data-severity="CRITICAL"
+         data-latency="65" data-error-type="UNAUTHORIZED" data-error-message="Simulated unauthorized"
+         style="left: 1056px; top: 476px; z-index: 572;">
+      <img src="../images/tombstone.png" alt="tombstone" width="64" height="96">
+    </div>
+
+  </div><!-- /#graveyard-grid -->
+  <div id="label-layer"></div>
+  <!-- Label overlay: always rendered above all sprites -->
+
+  <!-- Floating tooltip (managed by app.js) -->
+  <div id="tooltip" class="tooltip hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
