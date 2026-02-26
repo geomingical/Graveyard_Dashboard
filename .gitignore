@@ -15,16 +15,30 @@ backend/venv/
 # Ruff cache
 .ruff_cache/
 
-# OpenCode / Sisyphus internals
+# Internal workspace
 .sisyphus/
 
 # One-off scripts
 remove_bg.py
 test.js
 
+process_three_pngs.py
 # Backup sprites
 images/tower_original.png
+images/cover1.png
+images/cover2.png
 
 # Development notes
 comment.md
 Graveyard_Dashboard.md
+
+# Runtime data (generated, contains local config)
+data/roster.json
+data/graveyard_status.json
+data/graveyard_history.jsonl
+
+# Project knowledge base (local only)
+AGENTS.md
+
+# Screenshots (dev only)
+screenshot*.png

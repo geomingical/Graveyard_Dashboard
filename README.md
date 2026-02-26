@@ -1,4 +1,9 @@
 # Cyber Graveyard Dashboard
+
+<p align="center">
+  <img src="images/cover.png" alt="A-Ming Agentic Team" width="600">
+</p>
+
 Isometric pixel art monitoring dashboard for LLM subagent health
 
 ## Overview
@@ -40,15 +45,16 @@ Graveyard_Dashboard/
 ```
 
 ## Quick Start
-1. Generate status data:
+   1. Copy your agent roster config to `data/roster.json` (see `data/roster.template.json` for format)
+   2. Generate status data:
    ```bash
    cd backend && python daily_ping.py
    ```
-2. Start the development server from the project root:
+3. Start the development server from the project root:
    ```bash
    python3 -m http.server 8080
    ```
-3. Open the dashboard in your browser:
+4. Open the dashboard in your browser:
    `http://localhost:8080/frontend/index.html`
 
 ## Data Contract

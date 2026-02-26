@@ -13,6 +13,7 @@
     <div class="hud-title">⬡ CYBER GRAVEYARD</div>
     <div id="hud-generated">loading...</div>
     <div id="hud-stats"></div>
+    <button id="hud-refresh" title="Re-probe all agents">⟳ Refresh</button>
   </div>
 
   <!-- Isometric canvas: all sprites positioned here -->
@@ -152,6 +153,18 @@
 
   <!-- Floating tooltip (managed by app.js) -->
   <div id="tooltip" class="tooltip hidden"></div>
+
+  <!-- Confirmation dialog for model replacement -->
+  <div id="replace-dialog" class="replace-dialog hidden">
+    <div class="replace-dialog-inner">
+      <div class="replace-dialog-title">⚠ 確認模型替換</div>
+      <div id="replace-dialog-body"></div>
+      <div class="replace-dialog-actions">
+        <button id="replace-confirm" class="btn-confirm">確認替換</button>
+        <button id="replace-cancel" class="btn-cancel">取消</button>
+      </div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>
